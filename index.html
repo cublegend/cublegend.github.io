@@ -1,139 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Minimalistic Portfolio">
-    <meta name="keywords" content="Portfolio, Minimalist, Clean Design">
-    <meta name="author" content="Haoxuan Ma">
-    <title>Haoxuan Ma</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
-    <!-- Noto Sans Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>April Fools Timer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    nav {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    main {
+      padding: 24px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    #timerDisplay {
+      font-size: 8rem;
+      line-height: 1;
+      margin: 32px 0;
+    }
+
+    #chatMessages {
+      border: 1px solid #ccc;
+      min-height: 120px;
+      padding: 8px;
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
-
 <body>
-    <!-- Sticky Top Bar with Navigation Menu -->
-    <div class="transparent-menu-bar">
-        <!-- Toggle Button -->
-        <div class="menu-toggle" id="menu-toggle">☰</div>
+  <nav>
+    <a href="#home" aria-label="Home">&#8962;</a>
+    <a href="#history">History of April Fools Day</a>
+    <a href="#countries">Countries that Celebrates April Fools Day</a>
+    <a href="#why-prank">Why Humans Need Prank</a>
+  </nav>
 
-        <!-- Navigation Menu -->
-        <nav class="nav-menu" id="nav-menu">
-            <div class="menu-toggle" id="menu-exit">×</div>
-            <a href="#home" class="hover-underline-effect">Home</a>
-            <a href="#games" class="hover-underline-effect">Games</a>
-            <!-- <a href="#blogs" class="hover-underline-effect">Blogs</a> -->
-        </nav>
-    </div>
+  <main>
+    <section id="home" class="page">
+      <h1>April Fools Timer</h1>
+      <div id="timerDisplay">30:00</div>
 
-    <!-- Centered Text Container -->
-    <a href="https://www.linkedin.com/in/haoxuan-ma-221b94223/" target="_blank">
-        <div class="center-text" id="home">
-            Haoxuan, Ma
-        </div>
-    </a>
-
-    <!-- Hidden Sections for Game, Music, and Contact -->
-    <div class="projects-container" id="games">
-        <div class="projects-grid">
-            <div class="project-card">
-                <h3>Treat Team</h3>
-                <p>Puzzle, Mental Health</p>
-                <p>Unity, Mobile</p>
-                <div class="project-image">
-                    <a href="https://bluebirdstudios.net/" target="_blank">
-                        <img src="./img/treatteam.png" alt="Treat Team">
-                    </a>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>Theseus Orbital Station</h3>
-                <p>Experimental, VR, Story Rich, Sci-fi</p>
-                <p>Unreal, PC</p>
-                <div class="project-image">
-                    <a href="https://andixu1111.wixsite.com/498studio6" target="_blank">
-                        <img src="./img/theseus.png" alt="Theseus Orbital Station">
-                    </a>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>Ragnarok TD</h3>
-                <p>Tower Defense, Strategy</p>
-                <p>Unity, PC</p>
-                <div class="project-image">
-                    <a href="https://wolverinesoft-studio.itch.io/ragnarok-td" target="_blank">
-                        <img src="./img/ragnarok.png" alt="Ragnarok TD">
-                    </a>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>Prism of You</h3>
-                <p>Resource Management, Mental Health</p>
-                <p>Unity, Mobie</p>
-                <div class="project-image">
-                    <img src="./img/pofu.jpg" alt="Prism of You">
-                </div>
-
-                <div class="overlay">
-                    <span>🚧 Work in Progress 🚧</span>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>Alibi</h3>
-                <p>Puzzle, Visual Novel, Side Scroller, Story Rich</p>
-                <p>Unity, PC</p>
-                <div class="project-image">
-                    <img src="./img/alibi.png" alt="Alibi">
-                </div>
-
-                <div class="overlay">
-                    <span>🚧 Work in Progress 🚧</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Main Blog Section -->
-    <section class="projects-container" id="blogs">
-        <h1 class="section-title">Design Blogs</h1>
-        <p class="section-description">Welcome to my blog section where I share my thoughts on design, tutorials, and
-            case studies. Stay tuned for updates!</p>
-
-        <!-- Blog Post Previews -->
-        <div class="blog-container">
-            <!-- Blog Post 1 -->
-            <div class="blog-post">
-                <h2 class="blog-title">How to Create Minimalistic UI Designs</h2>
-                <p class="blog-description">Learn the key principles of minimalistic UI design and how to apply them in
-                    your projects to achieve a clean and modern look.</p>
-                <a href="post1.html" class="read-more">Read More</a>
-            </div>
-
-            <!-- Blog Post 2 -->
-            <div class="blog-post">
-                <h2 class="blog-title">Color Theory in Game Design</h2>
-                <p class="blog-description">Understand how to use color effectively in game design to create engaging
-                    environments and convey emotions.</p>
-                <a href="post2.html" class="read-more">Read More</a>
-            </div>
-
-            <!-- Blog Post 3 -->
-            <div class="blog-post">
-                <h2 class="blog-title">Responsive Design Tips for Portfolios</h2>
-                <p class="blog-description">Optimize your portfolio website for different screen sizes with these best
-                    practices in responsive design.</p>
-                <a href="post3.html" class="read-more">Read More</a>
-            </div>
-
-            <!-- Add more blog posts as needed -->
-        </div>
+      <h2>ChatGPT</h2>
+      <div id="chatMessages" aria-live="polite"></div>
+      <form id="chatForm">
+        <input id="chatInput" type="text" placeholder="Ask something..." autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+      <p id="chatStatus"></p>
     </section>
-    <script src="script.js"></script>
-</body>
 
+    <section id="history" class="page">
+      <h1>History of April Fools Day</h1>
+      <p>
+        April Fools' Day has roots in European history, especially around calendar changes
+        in the 16th century. One popular theory says people who continued celebrating the
+        new year around late March were mocked after the shift to January 1.
+      </p>
+      <p>
+        Over time, playful tricks and harmless hoaxes on April 1 became a yearly custom
+        in many places.
+      </p>
+    </section>
+
+    <section id="countries" class="page">
+      <h1>Countries that Celebrates April Fools Day</h1>
+      <p>
+        April Fools' Day is commonly celebrated in countries such as the United States,
+        Canada, the United Kingdom, France, Germany, Italy, and Australia.
+      </p>
+      <p>
+        Traditions vary, but lighthearted practical jokes and fake news stories are common
+        themes across many cultures.
+      </p>
+    </section>
+
+    <section id="why-prank" class="page">
+      <h1>Why Humans Need Prank</h1>
+      <p>
+        Pranks, when harmless and respectful, can create laughter and social bonding.
+        Humor helps reduce stress and encourages creativity.
+      </p>
+      <p>
+        A shared joke can make people feel connected, as long as the prank is safe,
+        consensual in spirit, and never humiliating.
+      </p>
+    </section>
+
+    <section id="BIBAFD" class="page">
+      <h1>#BIBAFD</h1>
+    </section>
+  </main>
+
+  <script>
+    const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD"];
+    const HOME_PAGE = "home";
+    const TIMER_START_SECONDS = 30 * 60;
+    const CHAT_API_URL = window.CHAT_API_URL || "/api/chat";
+
+    const timerDisplay = document.getElementById("timerDisplay");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+    const chatStatus = document.getElementById("chatStatus");
+
+    let remainingSeconds = TIMER_START_SECONDS;
+    let timerIntervalId = null;
+
+    function formatTime(totalSeconds) {
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    function renderTimer() {
+      timerDisplay.textContent = formatTime(remainingSeconds);
+    }
+
+    function tickTimer() {
+      if (remainingSeconds <= 0) {
+        stopTimer();
+        return;
+      }
+      remainingSeconds -= 1;
+      renderTimer();
+    }
+
+    function startTimer() {
+      if (timerIntervalId !== null) {
+        return;
+      }
+      timerIntervalId = window.setInterval(tickTimer, 1000);
+    }
+
+    function stopTimer() {
+      if (timerIntervalId === null) {
+        return;
+      }
+      window.clearInterval(timerIntervalId);
+      timerIntervalId = null;
+    }
+
+    function resetTimer(seconds = TIMER_START_SECONDS) {
+      remainingSeconds = Math.max(0, Math.floor(seconds));
+      renderTimer();
+    }
+
+    function getCurrentPageId() {
+      const pageIdFromHash = window.location.hash.replace("#", "");
+      return PAGE_IDS.includes(pageIdFromHash) ? pageIdFromHash : HOME_PAGE;
+    }
+
+    function renderPage() {
+      const activePageId = getCurrentPageId();
+      PAGE_IDS.forEach((pageId) => {
+        const pageElement = document.getElementById(pageId);
+        pageElement.classList.toggle("active", pageId === activePageId);
+      });
+    }
+
+    function appendChatMessage(role, text) {
+      const messageElement = document.createElement("p");
+      const label = role === "user" ? "You" : "ChatGPT";
+      messageElement.textContent = `${label}: ${text}`;
+      chatMessages.appendChild(messageElement);
+    }
+
+    function setChatStatus(message) {
+      chatStatus.textContent = message;
+    }
+
+    async function sendChatMessage(message) {
+      if (window.location.protocol === "file:") {
+        throw new Error("Chat API is unavailable on file://. Use a local dev server or deployed URL.");
+      }
+
+      const response = await fetch(CHAT_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message })
+      });
+
+      const payload = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const fallbackMessage = "Request failed. Please try again.";
+        throw new Error(payload.error || fallbackMessage);
+      }
+
+      return payload.reply || "";
+    }
+
+    // Public API for external scripts or console use.
+    window.startTimer = startTimer;
+    window.stopTimer = stopTimer;
+    window.resetTimer = resetTimer;
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const message = chatInput.value.trim();
+      if (!message) {
+        setChatStatus("Please enter a message.");
+        return;
+      }
+
+      chatInput.value = "";
+      appendChatMessage("user", message);
+      setChatStatus("Sending...");
+
+      try {
+        const reply = await sendChatMessage(message);
+        appendChatMessage("assistant", reply || "(No response text returned.)");
+        setChatStatus("");
+      } catch (error) {
+        const fallbackMessage = "Failed to fetch chat response. Check API URL/deployment/CORS.";
+        setChatStatus(error.message || fallbackMessage);
+      }
+    });
+
+    window.addEventListener("hashchange", renderPage);
+
+    renderTimer();
+    renderPage();
+    startTimer();
+  </script>
+</body>
 </html>
