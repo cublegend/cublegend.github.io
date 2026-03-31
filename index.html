@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="chat-api-url" content="https://cublegend-github-io.vercel.app/api/chat">
+  <meta name="control-api-url" content="https://cublegend-github-io.vercel.app/api/control">
   <title>April Fools Timer</title>
   <style>
     body {
@@ -43,6 +44,7 @@
       padding: 8px;
       margin-bottom: 8px;
     }
+
   </style>
 </head>
 <body>
@@ -60,11 +62,18 @@
 
       <h2>ChatGPT</h2>
       <div id="chatMessages" aria-live="polite"></div>
+      <button id="clearHistoryBtn" type="button">Clear Session History</button>
       <form id="chatForm">
         <input id="chatInput" type="text" placeholder="Ask something..." autocomplete="off">
         <button type="submit">Send</button>
       </form>
       <p id="chatStatus"></p>
+
+      <form id="overrideForm">
+        <input id="overrideInput" type="password" placeholder="Enter command or password" autocomplete="off">
+        <button type="submit">Execute</button>
+      </form>
+      <p id="overrideStatus"></p>
     </section>
 
     <section id="history" class="page">
@@ -113,17 +122,32 @@
     const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD"];
     const HOME_PAGE = "home";
     const TIMER_START_SECONDS = 30 * 60;
+    const TIMER_ACCELERATION_MULTIPLIER = 5;
+    const MAX_HISTORY_MESSAGES = 12;
+    const SESSION_HISTORY_KEY = "riftChatHistory";
+    const SESSION_RIFT_STOPPED_KEY = "riftStopped";
+    const SESSION_RIFT_ACCELERATED_KEY = "riftAccelerated";
+    const OVERRIDE_COMMAND = "OVERRIDE COMMAND: BringItBackAprilFoolsDay";
     const chatApiMeta = document.querySelector('meta[name="chat-api-url"]');
+    const controlApiMeta = document.querySelector('meta[name="control-api-url"]');
     const CHAT_API_URL = window.CHAT_API_URL || (chatApiMeta && chatApiMeta.content) || "/api/chat";
+    const CONTROL_API_URL = window.CONTROL_API_URL || (controlApiMeta && controlApiMeta.content) || "/api/control";
 
     const timerDisplay = document.getElementById("timerDisplay");
     const chatMessages = document.getElementById("chatMessages");
     const chatForm = document.getElementById("chatForm");
     const chatInput = document.getElementById("chatInput");
     const chatStatus = document.getElementById("chatStatus");
+    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+    const overrideForm = document.getElementById("overrideForm");
+    const overrideInput = document.getElementById("overrideInput");
+    const overrideStatus = document.getElementById("overrideStatus");
 
     let remainingSeconds = TIMER_START_SECONDS;
     let timerIntervalId = null;
+    let riftStopped = false;
+    let riftAccelerated = false;
+    let chatHistory = [];
 
     function formatTime(totalSeconds) {
       const minutes = Math.floor(totalSeconds / 60);
@@ -136,16 +160,17 @@
     }
 
     function tickTimer() {
-      if (remainingSeconds <= 0) {
+      if (riftStopped || remainingSeconds <= 0) {
         stopTimer();
         return;
       }
-      remainingSeconds -= 1;
+      const decrement = riftAccelerated ? TIMER_ACCELERATION_MULTIPLIER : 1;
+      remainingSeconds = Math.max(0, remainingSeconds - decrement);
       renderTimer();
     }
 
     function startTimer() {
-      if (timerIntervalId !== null) {
+      if (timerIntervalId !== null || riftStopped) {
         return;
       }
       timerIntervalId = window.setInterval(tickTimer, 1000);
@@ -184,8 +209,92 @@
       chatMessages.appendChild(messageElement);
     }
 
+    function loadSessionHistory() {
+      try {
+        const parsed = JSON.parse(window.sessionStorage.getItem(SESSION_HISTORY_KEY) || "[]");
+        if (!Array.isArray(parsed)) {
+          return [];
+        }
+        return parsed.filter((entry) =>
+          entry &&
+          (entry.role === "user" || entry.role === "assistant") &&
+          typeof entry.text === "string" &&
+          entry.text.trim()
+        );
+      } catch (_error) {
+        return [];
+      }
+    }
+
+    function saveSessionHistory() {
+      window.sessionStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(chatHistory));
+    }
+
+    function addHistoryMessage(role, text) {
+      chatHistory.push({ role, text });
+      if (chatHistory.length > MAX_HISTORY_MESSAGES) {
+        chatHistory = chatHistory.slice(chatHistory.length - MAX_HISTORY_MESSAGES);
+      }
+      saveSessionHistory();
+    }
+
+    function renderHistory() {
+      chatMessages.innerHTML = "";
+      chatHistory.forEach((entry) => appendChatMessage(entry.role, entry.text));
+    }
+
+    function setRiftStoppedState(stopped) {
+      riftStopped = Boolean(stopped);
+      window.sessionStorage.setItem(SESSION_RIFT_STOPPED_KEY, riftStopped ? "1" : "0");
+      if (riftStopped) {
+        stopTimer();
+        overrideStatus.textContent = "Override accepted. Time rift process stopped.";
+      }
+    }
+
+    function loadRiftStoppedState() {
+      return window.sessionStorage.getItem(SESSION_RIFT_STOPPED_KEY) === "1";
+    }
+
+    function setRiftAcceleratedState(accelerated) {
+      riftAccelerated = Boolean(accelerated);
+      window.sessionStorage.setItem(SESSION_RIFT_ACCELERATED_KEY, riftAccelerated ? "1" : "0");
+      if (riftAccelerated && !riftStopped) {
+        overrideStatus.textContent = "Acceleration enabled.";
+      }
+    }
+
+    function loadRiftAcceleratedState() {
+      return window.sessionStorage.getItem(SESSION_RIFT_ACCELERATED_KEY) === "1";
+    }
+
     function setChatStatus(message) {
       chatStatus.textContent = message;
+    }
+
+    async function submitControlSecret(secret) {
+      if (window.location.protocol === "file:") {
+        throw new Error("Control API is unavailable on file://. Use a local dev server or deployed URL.");
+      }
+
+      let response;
+      try {
+        response = await fetch(CONTROL_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ secret })
+        });
+      } catch (_error) {
+        throw new Error(`Cannot reach control API at ${CONTROL_API_URL}.`);
+      }
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || `Control request failed (${response.status}).`);
+      }
+      return payload;
     }
 
     async function sendChatMessage(message) {
@@ -200,7 +309,11 @@
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ message })
+          body: JSON.stringify({
+            message,
+            history: chatHistory,
+            riftStopped
+          })
         });
       } catch (_error) {
         throw new Error(`Cannot reach chat API at ${CHAT_API_URL}.`);
@@ -236,6 +349,8 @@
 
       try {
         const reply = await sendChatMessage(message);
+        addHistoryMessage("user", message);
+        addHistoryMessage("assistant", reply || "(No response text returned.)");
         appendChatMessage("assistant", reply || "(No response text returned.)");
         setChatStatus("");
       } catch (error) {
@@ -244,8 +359,54 @@
       }
     });
 
+    clearHistoryBtn.addEventListener("click", () => {
+      chatHistory = [];
+      saveSessionHistory();
+      renderHistory();
+      setChatStatus("Session history cleared.");
+    });
+
+    overrideForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const command = overrideInput.value;
+
+      if (command === OVERRIDE_COMMAND) {
+        setRiftStoppedState(true);
+        setRiftAcceleratedState(false);
+        setChatStatus("Rift shutdown acknowledged.");
+        overrideInput.value = "";
+        return;
+      }
+
+      if (riftStopped) {
+        overrideStatus.textContent = "Rift is already stopped.";
+        overrideInput.value = "";
+        return;
+      }
+
+      submitControlSecret(command)
+        .then((payload) => {
+          if (payload && payload.ok && payload.action === "accelerate") {
+            setRiftAcceleratedState(true);
+            setChatStatus("Rift acceleration active.");
+          } else {
+            overrideStatus.textContent = "Command rejected.";
+          }
+        })
+        .catch((error) => {
+          overrideStatus.textContent = error.message || "Control request failed.";
+        })
+        .finally(() => {
+          overrideInput.value = "";
+        });
+    });
+
     window.addEventListener("hashchange", renderPage);
 
+    chatHistory = loadSessionHistory();
+    renderHistory();
+    setRiftStoppedState(loadRiftStoppedState());
+    setRiftAcceleratedState(loadRiftAcceleratedState());
     renderTimer();
     renderPage();
     startTimer();
