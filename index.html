@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="chat-api-url" content="https://cublegend-github-r64q8xf1q-cublegends-projects.vercel.app/api/chat">
   <title>April Fools Timer</title>
   <style>
     body {
@@ -112,7 +113,8 @@
     const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD"];
     const HOME_PAGE = "home";
     const TIMER_START_SECONDS = 30 * 60;
-    const CHAT_API_URL = window.CHAT_API_URL || "/api/chat";
+    const chatApiMeta = document.querySelector('meta[name="chat-api-url"]');
+    const CHAT_API_URL = window.CHAT_API_URL || (chatApiMeta && chatApiMeta.content) || "/api/chat";
 
     const timerDisplay = document.getElementById("timerDisplay");
     const chatMessages = document.getElementById("chatMessages");
@@ -191,18 +193,23 @@
         throw new Error("Chat API is unavailable on file://. Use a local dev server or deployed URL.");
       }
 
-      const response = await fetch(CHAT_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ message })
-      });
+      let response;
+      try {
+        response = await fetch(CHAT_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message })
+        });
+      } catch (_error) {
+        throw new Error(`Cannot reach chat API at ${CHAT_API_URL}.`);
+      }
 
       const payload = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        const fallbackMessage = "Request failed. Please try again.";
+        const fallbackMessage = `Request failed (${response.status}) at ${CHAT_API_URL}.`;
         throw new Error(payload.error || fallbackMessage);
       }
 
