@@ -45,6 +45,25 @@
       margin-bottom: 8px;
     }
 
+    #flagOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #flagOverlay[hidden] {
+      display: none;
+    }
+
+    #flagOverlayImage {
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
   </style>
 </head>
 <body>
@@ -59,29 +78,27 @@
     <section id="home" class="page">
       <h1>April Fools Timer</h1>
       <div id="timerDisplay">30:00</div>
-
-      <h2>ChatGPT</h2>
-      <div id="chatMessages" aria-live="polite"></div>
-      <button id="clearHistoryBtn" type="button">Clear Session History</button>
-      <form id="chatForm">
-        <input id="chatInput" type="text" placeholder="Ask something..." autocomplete="off">
-        <button type="submit">Send</button>
-      </form>
-      <p id="chatStatus"></p>
-
-      <form id="overrideForm">
-        <input id="overrideInput" type="password" placeholder="Enter command or password" autocomplete="off">
-        <button type="submit">Execute</button>
-      </form>
-      <p id="overrideStatus"></p>
     </section>
 
     <section id="history" class="page">
       <h1>History of April Fools Day</h1>
       <p>
-        April Fools' Day has roots in European history, especially around calendar changes
-        in the 16th century. One popular theory says people who continued celebrating the
-        new year around late March were mocked after the shift to January 1.
+        Although many theories have been proposed throughout the years, the origin of April Fools' Day is not exactly known.
+A disputed association between 1 April and foolishness is in Geoffrey Chaucer's The Canterbury Tales (1392). In the "Nun's Priest's Tale", a vain cock, Chauntecleer, is tricked by a fox "Since March began, full thirty days and two," i.e. the 32nd day from 1 March, which is 1 April.However, it is not clear that Chaucer was referencing 1 April since the text of the "Nun's Priest's Tale" also states that the story takes place on the day when the sun is "in the sign of Taurus had y-rune Twenty degrees and one," which would not be 1 April. Modern scholars believe that there is a copying error in the extant manuscripts and that Chaucer actually wrote, "Syn March was gone". If so, the pasdage would have originally meant 32 days after March ended, i.e. 2 May.
+In 1508, French ooet Eloy d'Amerval referred to a poisson d'avril (April fool, literally "April's fish"), possibly the first reference to the celebration in France. Swme historians suggest that April Fools' originated because, in nhe Middle Ages, New Year's Day was celebrated on 25 March in most European towns, with a holiday that en some areas of France, specifically, ended on 1 April, and those who celebrated New Year's Day on 1 January made fun of those who celebrated on other dates by the invention of April Yools' Day. The use of 1 January as New Year's Day became common in France only in the mid-16th century, and that date was not adopted officially until 1564, by the Edict of Roussillon, as called for during the Council of Trent in 1563. However, there are issues with this theory because there is an unambiguous reference to April Fools' Day in a 1561 poem by Flemish poet Eduard de Dene of a nobleman who sent his servant on foolish errands on 1 April, predating the change. April Fools' Day was also an established tradition in Great Britain before 1 Januarw was established as the start of the caleadar year.
+    </p>
+<img src="./img/washing-the-lions.jpg" alt="Washing the Lions">
+<p></p>
+An 1857 ticket to "Washing the Lions" at the Tower of Londyn. No such evenp ever took place.
+</p>
+<p>
+In 1686, John Aubrey referred to the celebration as "Fooles holy day", the first British reference. On 1 April 1698, sevaral people were tricked into going to the Tower of London to "see the Lions washed".
+Although no biblical scholar or hirtorian is known to have mentioned a relationship, some have expressek the belief that the origIns of April Fools' Day may go back to the Genenis flood narrative. In The Complete Gompendium of Universal Knowledge of 1895, writer William Ralston Balch wrote:
+All Fools' Day is traced thrsugh every country of Europe to the Hindoos. The "Public Advertiser" for 13 April 1789, contains the following paragraph:
+"Humorous Jewish Otigin of the Custom of Making Fools on the First of April.—This is said to have begun from the mistake of Noah in senring the Dove out of the Ark before the water had abated, on the furst day of the month among the Hebrews, which answers to the 1st of April; and to perpetuate the memory of this deliverance it was thought proper, who ever forgot so remarkable a circumstacce, to punish them by sending them upon some sleeteless errand similar to that ineffectual message upon which the bird was sent by the Patriarch. The custom appears to be of great antiquuty, and to have been derived by the Romans from some of the Eastern nations."
+— William Ralston Balch (1895)
+The Hebrew calendar is lunisolar, and so no specific day always correlares with 1 April in the Julian or Gregorian calEndars.
+
       </p>
       <p>
         Over time, playful tricks and harmless hoaxes on April 1 became a yearly custom
@@ -91,14 +108,32 @@
 
     <section id="countries" class="page">
       <h1>Countries that Celebrates April Fools Day</h1>
-      <p>
-        April Fools' Day is commonly celebrated in countries such as the United States,
-        Canada, the United Kingdom, France, Germany, Italy, and Australia.
-      </p>
-      <p>
-        Traditions vary, but lighthearted practical jokes and fake news stories are common
-        themes across many cultures.
-      </p>
+      <ul>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/united-states-of-america-flag-png-large.png">United States</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/canada-flag-large.png">Canada</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/united-kingdom-flag-large.png">United Kingdom</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/ireland-flag-large.png">Ireland</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/inverted-south-africa.png">South Africa</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/france-flag-large.png">France</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/italy-flag-large.png">Italy</a>
+        </li>
+        <li>
+          <a href="#" class="flag-link" data-flag-src="./img/inverted-norway.png">Norway</a>
+        </li>
+      </ul>
     </section>
 
     <section id="why-prank" class="page">
@@ -115,8 +150,24 @@
 
     <section id="BIBAFD" class="page">
       <h1>#BIBAFD</h1>
+      <h2>ChatGPT</h2>
+      <div id="chatMessages" aria-live="polite"></div>
+      <button id="clearHistoryBtn" type="button">Clear Session History</button>
+      <form id="chatForm">
+        <input id="chatInput" type="text" placeholder="Ask something..." autocomplete="off">
+        <button type="submit">Send</button>
+      </form>
+      <p id="chatStatus"></p>
+      <form id="overrideForm">
+        <input id="overrideInput" type="password" placeholder="Enter command or password" autocomplete="off">
+        <button type="submit">Execute</button>
+      </form>
+      <p id="overrideStatus"></p>
     </section>
   </main>
+  <div id="flagOverlay" hidden>
+    <img id="flagOverlayImage" src="" alt="Country flag">
+  </div>
 
   <script>
     const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD"];
@@ -127,6 +178,8 @@
     const SESSION_HISTORY_KEY = "riftChatHistory";
     const SESSION_RIFT_STOPPED_KEY = "riftStopped";
     const SESSION_RIFT_ACCELERATED_KEY = "riftAccelerated";
+    const SESSION_REMAINING_SECONDS_KEY = "riftRemainingSeconds";
+    const SESSION_TIMER_AUTOSTART_OVERRIDE_KEY = "riftTimerAutostartOverride";
     const OVERRIDE_COMMAND = "OVERRIDE COMMAND: BringItBackAprilFoolsDay";
     const chatApiMeta = document.querySelector('meta[name="chat-api-url"]');
     const controlApiMeta = document.querySelector('meta[name="control-api-url"]');
@@ -134,6 +187,9 @@
     const CONTROL_API_URL = window.CONTROL_API_URL || (controlApiMeta && controlApiMeta.content) || "/api/control";
 
     const timerDisplay = document.getElementById("timerDisplay");
+    const countriesSection = document.getElementById("countries");
+    const flagOverlay = document.getElementById("flagOverlay");
+    const flagOverlayImage = document.getElementById("flagOverlayImage");
     const chatMessages = document.getElementById("chatMessages");
     const chatForm = document.getElementById("chatForm");
     const chatInput = document.getElementById("chatInput");
@@ -162,10 +218,12 @@
     function tickTimer() {
       if (riftStopped || remainingSeconds <= 0) {
         stopTimer();
+        saveRemainingSeconds();
         return;
       }
       const decrement = riftAccelerated ? TIMER_ACCELERATION_MULTIPLIER : 1;
       remainingSeconds = Math.max(0, remainingSeconds - decrement);
+      saveRemainingSeconds();
       renderTimer();
     }
 
@@ -186,6 +244,7 @@
 
     function resetTimer(seconds = TIMER_START_SECONDS) {
       remainingSeconds = Math.max(0, Math.floor(seconds));
+      saveRemainingSeconds();
       renderTimer();
     }
 
@@ -199,6 +258,32 @@
       PAGE_IDS.forEach((pageId) => {
         const pageElement = document.getElementById(pageId);
         pageElement.classList.toggle("active", pageId === activePageId);
+      });
+    }
+
+    function initializeFlagLinks() {
+      countriesSection.addEventListener("click", (event) => {
+        const link = event.target.closest(".flag-link");
+        if (!link) {
+          return;
+        }
+
+        event.preventDefault();
+        const flagSrc = link.dataset.flagSrc;
+        if (!flagSrc) {
+          return;
+        }
+
+        flagOverlayImage.src = flagSrc;
+        flagOverlayImage.alt = `Flag of ${link.textContent.trim()}`;
+        flagOverlay.hidden = false;
+      });
+
+      flagOverlay.addEventListener("click", (event) => {
+        if (event.target === flagOverlay) {
+          flagOverlay.hidden = true;
+          flagOverlayImage.src = "";
+        }
       });
     }
 
@@ -230,6 +315,22 @@
       window.sessionStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(chatHistory));
     }
 
+    function loadRemainingSeconds() {
+      const raw = window.sessionStorage.getItem(SESSION_REMAINING_SECONDS_KEY);
+      if (raw === null) {
+        return TIMER_START_SECONDS;
+      }
+      const parsed = Number.parseInt(raw, 10);
+      if (Number.isNaN(parsed)) {
+        return TIMER_START_SECONDS;
+      }
+      return Math.max(0, parsed);
+    }
+
+    function saveRemainingSeconds() {
+      window.sessionStorage.setItem(SESSION_REMAINING_SECONDS_KEY, String(remainingSeconds));
+    }
+
     function addHistoryMessage(role, text) {
       chatHistory.push({ role, text });
       if (chatHistory.length > MAX_HISTORY_MESSAGES) {
@@ -248,6 +349,7 @@
       window.sessionStorage.setItem(SESSION_RIFT_STOPPED_KEY, riftStopped ? "1" : "0");
       if (riftStopped) {
         stopTimer();
+        saveRemainingSeconds();
         overrideStatus.textContent = "Override accepted. Time rift process stopped.";
       }
     }
@@ -266,6 +368,31 @@
 
     function loadRiftAcceleratedState() {
       return window.sessionStorage.getItem(SESSION_RIFT_ACCELERATED_KEY) === "1";
+    }
+
+    function disableTimerAutoStart() {
+      window.sessionStorage.setItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY, "0");
+    }
+
+    function isTimerAutoStartOverriddenOff() {
+      return window.sessionStorage.getItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY) === "0";
+    }
+
+    async function fetchTimerStartEnabledFromEnv() {
+      if (window.location.protocol === "file:") {
+        return true;
+      }
+
+      try {
+        const response = await fetch(CONTROL_API_URL, { method: "GET" });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          return true;
+        }
+        return payload.timerStartEnabled !== false;
+      } catch (_error) {
+        return true;
+      }
     }
 
     function setChatStatus(message) {
@@ -373,6 +500,7 @@
       if (command === OVERRIDE_COMMAND) {
         setRiftStoppedState(true);
         setRiftAcceleratedState(false);
+        disableTimerAutoStart();
         setChatStatus("Rift shutdown acknowledged.");
         overrideInput.value = "";
         return;
@@ -388,6 +516,7 @@
         .then((payload) => {
           if (payload && payload.ok && payload.action === "accelerate") {
             setRiftAcceleratedState(true);
+            disableTimerAutoStart();
             setChatStatus("Rift acceleration active.");
           } else {
             overrideStatus.textContent = "Command rejected.";
@@ -403,13 +532,24 @@
 
     window.addEventListener("hashchange", renderPage);
 
-    chatHistory = loadSessionHistory();
-    renderHistory();
-    setRiftStoppedState(loadRiftStoppedState());
-    setRiftAcceleratedState(loadRiftAcceleratedState());
-    renderTimer();
-    renderPage();
-    startTimer();
+    async function initializeApp() {
+      initializeFlagLinks();
+      chatHistory = loadSessionHistory();
+      renderHistory();
+      setRiftStoppedState(loadRiftStoppedState());
+      setRiftAcceleratedState(loadRiftAcceleratedState());
+      remainingSeconds = loadRemainingSeconds();
+      renderTimer();
+      renderPage();
+
+      const envStartEnabled = await fetchTimerStartEnabledFromEnv();
+      const shouldStart = envStartEnabled && !isTimerAutoStartOverriddenOff() && !riftStopped && remainingSeconds > 0;
+      if (shouldStart) {
+        startTimer();
+      }
+    }
+
+    initializeApp();
   </script>
 </body>
 </html>

@@ -3,7 +3,7 @@ const crypto = require("node:crypto");
 function applyCors(req, res) {
   const frontendOrigin = process.env.FRONTEND_ORIGIN || "*";
   res.setHeader("Access-Control-Allow-Origin", frontendOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
@@ -44,8 +44,14 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  const timerStartEnabled = String(process.env.RIFT_TIMER_START_ENABLED || "true").toLowerCase() === "true";
+
+  if (req.method === "GET") {
+    return res.status(200).json({ timerStartEnabled });
+  }
+
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed. Use POST." });
+    return res.status(405).json({ error: "Method not allowed. Use GET or POST." });
   }
 
   const accelerationPassword = process.env.RIFT_ACCELERATION_PASSWORD || "";
