@@ -5,9 +5,9 @@ const noteToChar = {
   "G#": "W",
   "C": "B",
   "C#": "4",
-  "A": "s",
-  "G": "b",
-  "Bb": "c"
+  "F": "s",
+  "A": "b",
+  "G": "c"
 };
 
 // Number mapping for puzzle input.

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="chat-api-url" content="https://cublegend-github-io.vercel.app/api/chat">
   <meta name="control-api-url" content="https://cublegend-github-io.vercel.app/api/control">
+  <meta name="decoder-api-url" content="https://cublegend-github-io.vercel.app/api/decoder">
   <title>April Fools Timer</title>
   <link rel="stylesheet" href="./styles/global.css">
   <link rel="stylesheet" href="./styles/home.css">
@@ -177,13 +178,12 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
 
     <section id="Decoder" class="page page-decoder">
       <h1>#Decoder</h1>
-      <p>Enter note numbers separated by spaces.</p>
-      <p>Center C = 0, C# = 1 ... up to B = 13.</p>
       <img src="./img/pianoHint.png" alt="Piano number hint">
       <form id="decoderForm">
-        <input id="decoderInput" type="text" placeholder="Example: 10 6 2 8 0 1 10 9 7" autocomplete="off">
+        <input id="decoderInput" type="text" placeholder="Example: 0 1 2 3 4" autocomplete="off">
         <button type="submit">Decode</button>
       </form>
+      <p>Enter note numbers separated by spaces.</p>
       <p id="decoderOutput"></p>
     </section>
   </main>
@@ -206,8 +206,10 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     const SESSION_TIMER_AUTOSTART_OVERRIDE_KEY = "riftTimerAutostartOverride";
     const chatApiMeta = document.querySelector('meta[name="chat-api-url"]');
     const controlApiMeta = document.querySelector('meta[name="control-api-url"]');
+    const decoderApiMeta = document.querySelector('meta[name="decoder-api-url"]');
     const CHAT_API_URL = window.CHAT_API_URL || (chatApiMeta && chatApiMeta.content) || "/api/chat";
     const CONTROL_API_URL = window.CONTROL_API_URL || (controlApiMeta && controlApiMeta.content) || "/api/control";
+    const DECODER_API_URL = window.DECODER_API_URL || (decoderApiMeta && decoderApiMeta.content) || "/api/decoder";
 
     const timerDisplay = document.getElementById("timerDisplay");
     const countriesSection = document.getElementById("countries");
@@ -714,18 +716,43 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
         });
     });
 
-    decoderForm.addEventListener("submit", (event) => {
+    async function checkDecoderAnswer(rawInput) {
+      let response;
+      try {
+        response = await fetch(DECODER_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ attempt: rawInput })
+        });
+      } catch (_error) {
+        return false;
+      }
+
+      const payload = await response.json().catch(() => ({}));
+      return response.ok && Boolean(payload.ok);
+    }
+
+    decoderForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       const rawInput = decoderInput.value.trim();
 
       try {
+        if (!rawInput) {
+          decoderOutput.textContent = "Not decodable.";
+          return;
+        }
+        const answerMatches = await checkDecoderAnswer(rawInput);
+        if (!answerMatches) {
+          decoderOutput.textContent = "Not decodable.";
+          return;
+        }
         if (!window.noteEncder || typeof window.noteEncder.decodeNumberString !== "function") {
           throw new Error("Decoder module not loaded.");
         }
         const decodedText = window.noteEncder.decodeNumberString(rawInput);
         decoderOutput.textContent = decodedText;
-      } catch (error) {
-        decoderOutput.textContent = error.message || "Unable to decode input.";
+      } catch (_error) {
+        decoderOutput.textContent = "Not decodable.";
       }
     });
 
