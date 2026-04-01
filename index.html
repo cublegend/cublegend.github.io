@@ -512,6 +512,8 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
         stopTimer();
         saveRemainingSeconds();
         overrideStatus.textContent = "Override accepted. Time rift process stopped.";
+      } else {
+        window.sessionStorage.removeItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY);
       }
     }
 
@@ -543,12 +545,22 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       return window.sessionStorage.getItem(SESSION_OVERRIDE_ARMED_KEY) === "1";
     }
 
+    function clearRiftControlSessionState() {
+      window.sessionStorage.removeItem(SESSION_RIFT_STOPPED_KEY);
+      window.sessionStorage.removeItem(SESSION_RIFT_ACCELERATED_KEY);
+      window.sessionStorage.removeItem(SESSION_OVERRIDE_ARMED_KEY);
+      window.sessionStorage.removeItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY);
+      setRiftStoppedState(false);
+      setRiftAcceleratedState(false);
+      setOverrideArmedState(false);
+    }
+
     function disableTimerAutoStart() {
       window.sessionStorage.setItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY, "0");
     }
 
     function isTimerAutoStartOverriddenOff() {
-      return window.sessionStorage.getItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY) === "0";
+      return riftStopped && window.sessionStorage.getItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY) === "0";
     }
 
     async function fetchTimerStartEnabledFromEnv() {
@@ -770,6 +782,9 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       renderPage();
 
       const envStartEnabled = await fetchTimerStartEnabledFromEnv();
+      if (envStartEnabled) {
+        clearRiftControlSessionState();
+      }
       const shouldStart = envStartEnabled && !isTimerAutoStartOverriddenOff() && !riftStopped && remainingSeconds > 0;
       if (shouldStart) {
         startTimer();
