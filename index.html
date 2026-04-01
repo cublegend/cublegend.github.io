@@ -124,33 +124,36 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       </p>
       <p><strong>EXAMPLE OF A CLASSIC PRANK:</strong></p>
       <p>
-        A very classic example of a prank that is both simple and effective is the email
-        prank. The steps are as follows:
+        A classic example of a prank that is both simple and effective is the email prank.
+        The steps are as follows:
       </p>
-      <p>Find the person you want to prank and their email address.</p>
-      <p>Send them this message:</p>
+      <ol>
+        <li>Find the person you want to prank and their email address.</li>
+        <li>Send them this message:
+            
+            <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;Hey,<br><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;Just wanted to say-<br><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;April Fool's!
+            </p>
+        </li>
+        <li>
+            You can freely change the message however you like, but don't forget to add the
+            "April Fool's!" line at the end so they know it's a prank.
+        </li>
+      </ol>
       <p>
-        Hey,<br>
-        Just wanted to say-<br>
-        April Fool's!
-      </p>
-      <p>
-        You can freely change the message as you wish, but do not forget to add the
-        "April Fool's!" line at the end to let them know that it is a prank!
-      </p>
-      <p>
-        Some may say that this is too simple and stupid. But it is by far the most
+        Some people may say this is too simple or stupid. But it is by far the most
         effective way to celebrate and enjoy April Fool's Day with your friends, and a
-        good way to tell them that you are thinking of them. So go ahead and send it!
-        Maybe they will reply with an even better one that you can use on the next
-        victim.
+        great way to let them know you're thinking of them. So go ahead and send it!
+        Maybe they'll reply with an even better one that you can use on your next victim.
       </p>
       <p>
-        Also, if you are hesitating to send your friend this message, feel free to send
-        it my way! I am a strong defender of the tradition of April Fool's Day. So if in
-        the future, there is anything wrong with this tradition, I will do my best to
-        upkeep it. Ask me anything! My email address is as follows:
-        afdproisme@gmail.com.
+        Also, if you're hesitating to send this message to your friends, feel free to send
+        it to me! I am a strong defender of the tradition of April Fool's Day. So if
+        anything ever goes wrong with this tradition, I will do my best to uphold it. Ask
+        me anything! My email address is as follows:
+        <u><a href="mailto:afdproisme@gmail.com">afdproisme@gmail.com</a></u>.
       </p>
     </section>
 
@@ -234,7 +237,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     let thinkingSpawnIntervalId = null;
     let thinkingTimerIds = [];
 
-    const MIN_FAKE_THINKING_MS = 1500;
+    const MIN_FAKE_THINKING_MS = 3000;
     const FAKE_THINKING_SNIPPETS = [
       "scan.route() => temporal_offset: +32d",
       "cipher.merge(source_a, source_b) // drift detected",
@@ -274,8 +277,15 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
 
       const lineElement = document.createElement("div");
       lineElement.className = "thinking-line";
-      lineElement.style.top = `${Math.floor(Math.random() * 92)}%`;
-      lineElement.style.left = `${Math.floor(Math.random() * 16)}%`;
+      lineElement.style.top = `${Math.floor(Math.random() * 96)}%`;
+      const typesFromRight = Math.random() < 0.5;
+      if (typesFromRight) {
+        lineElement.style.right = `${Math.floor(Math.random() * 88)}%`;
+        lineElement.style.textAlign = "right";
+      } else {
+        lineElement.style.left = `${Math.floor(Math.random() * 88)}%`;
+      }
+      lineElement.style.opacity = `${0.72 + Math.random() * 0.2}`;
       bibafdThinkingLayer.appendChild(lineElement);
 
       const fullText = pickFakeThinkingSnippet();
@@ -288,11 +298,15 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
         }
 
         charIndex += 1;
-        lineElement.textContent = fullText.slice(0, charIndex);
+        if (typesFromRight) {
+          lineElement.textContent = fullText.slice(Math.max(0, fullText.length - charIndex));
+        } else {
+          lineElement.textContent = fullText.slice(0, charIndex);
+        }
         if (charIndex >= fullText.length) {
           window.clearInterval(typeIntervalId);
         }
-      }, 18 + Math.floor(Math.random() * 18));
+      }, 4 + Math.floor(Math.random() * 7));
 
       const removeTimerId = window.setTimeout(() => {
         lineElement.remove();
@@ -323,13 +337,13 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       const currentRunId = thinkingRunId;
       bibafdThinkingLayer.classList.add("active");
 
-      for (let i = 0; i < 8; i += 1) {
+      for (let i = 0; i < 40; i += 1) {
         createThinkingLine(currentRunId);
       }
 
       thinkingSpawnIntervalId = window.setInterval(() => {
         createThinkingLine(currentRunId);
-      }, 110);
+      }, 22);
 
       return currentRunId;
     }

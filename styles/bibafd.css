@@ -6,11 +6,11 @@
 }
 
 #bibafdThinkingLayer {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: #000;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
   overflow: hidden;
 }
 
@@ -20,10 +20,10 @@
 
 #bibafdThinkingLayer .thinking-line {
   position: absolute;
-  color: rgba(111, 255, 131, 0.34);
+  color: rgba(111, 255, 131, 0.8);
   font-size: 0.9rem;
   white-space: nowrap;
-  text-shadow: 0 0 7px rgba(111, 255, 131, 0.3);
+  text-shadow: 0 0 8px rgba(111, 255, 131, 0.72);
 }
 
 .page-bibafd > :not(#bibafdThinkingLayer) {
