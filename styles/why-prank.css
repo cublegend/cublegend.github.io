@@ -1,0 +1,27 @@
+.page-why-prank {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-why-prank::before {
+  content: "";
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 180px;
+  height: 110px;
+  background: url("../img/april-fools.png") right top / contain no-repeat;
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+.page-why-prank h1,
+.page-why-prank p {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 12px;
+}
+
+.page-why-prank p strong {
+  color: #b32164;
+}

@@ -1,0 +1,33 @@
+.page-history {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-history::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  width: 140px;
+  height: 140px;
+  background: url("../img/april-fools.png") center / contain no-repeat;
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+.page-history p {
+  margin: 0 0 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.page-history img {
+  display: block;
+  width: min(620px, 100%);
+  margin: 14px auto;
+  border-radius: 12px;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 22px rgba(10, 24, 52, 0.24);
+  position: relative;
+  z-index: 1;
+}

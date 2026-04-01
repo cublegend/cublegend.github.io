@@ -1,0 +1,50 @@
+.page-countries {
+  position: relative;
+  overflow: hidden;
+}
+
+.page-countries::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  width: 160px;
+  height: 110px;
+  background: url("../img/balloons.png") left top / contain no-repeat;
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+.page-countries h1,
+.page-countries ul {
+  position: relative;
+  z-index: 1;
+}
+
+.page-countries ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.page-countries li {
+  margin: 0;
+}
+
+.page-countries .flag-link {
+  display: block;
+  text-decoration: none;
+  color: #112a60;
+  font-weight: 700;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #88a6e6;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(209, 229, 255, 0.84));
+}
+
+.page-countries .flag-link:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 227, 109, 0.58));
+}

@@ -1,0 +1,183 @@
+:root {
+  --xp-blue: #3272ea;
+  --xp-blue-dark: #1546a0;
+  --xp-yellow: #ffe36d;
+  --xp-pink: #ff61b6;
+  --xp-green: #6de28f;
+  --xp-orange: #ff9f3c;
+  --xp-white: #ffffff;
+  --xp-ink: #17213d;
+  --xp-shadow: 0 10px 24px rgba(16, 23, 48, 0.24);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.xp-theme {
+  margin: 0;
+  color: var(--xp-ink);
+  font-family: "Trebuchet MS", Tahoma, Arial, sans-serif;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)),
+    url("../img/background.jpg") center / cover fixed no-repeat,
+    radial-gradient(circle at 15% 15%, rgba(255, 227, 109, 0.45), transparent 35%),
+    radial-gradient(circle at 85% 20%, rgba(255, 97, 182, 0.42), transparent 32%),
+    radial-gradient(circle at 50% 100%, rgba(109, 226, 143, 0.36), transparent 40%),
+    linear-gradient(180deg, #68bbff 0%, #3b8bf4 45%, #2f68c8 100%);
+  min-height: 100vh;
+}
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 12px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.6);
+  background: linear-gradient(180deg, #6ca7ff 0%, #2d66cc 100%);
+  box-shadow: var(--xp-shadow);
+}
+
+.site-nav a {
+  text-decoration: none;
+  color: #f7fbff;
+  font-weight: 700;
+  font-size: 0.96rem;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.08));
+}
+
+.site-nav a:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(180deg, rgba(255, 227, 109, 0.55), rgba(255, 159, 60, 0.35));
+}
+
+.site-main {
+  padding: 24px;
+}
+
+.page {
+  display: none;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.78);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(232, 244, 255, 0.9));
+  box-shadow: var(--xp-shadow);
+}
+
+.page.active {
+  display: block;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+  color: #173069;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+p,
+li {
+  line-height: 1.45;
+}
+
+button {
+  border: 1px solid #4a5c92;
+  border-radius: 10px;
+  color: #10203f;
+  font-weight: 700;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #fff6b6 0%, #ffca4f 100%);
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.06);
+}
+
+input,
+textarea {
+  border: 1px solid #6f89c6;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+#flagOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#flagOverlay[hidden] {
+  display: none;
+}
+
+#flagOverlayImage {
+  max-width: min(90vw, 900px);
+  max-height: 90vh;
+  border: 4px solid rgba(255, 255, 255, 0.94);
+  border-radius: 14px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.matrix-mode {
+  color: #86ff9a;
+  font-family: "Consolas", "Courier New", monospace;
+  background: #030603;
+}
+
+body.matrix-mode .site-nav {
+  border-bottom: 1px solid #0f3;
+  background: #020202;
+  box-shadow: none;
+}
+
+body.matrix-mode .site-nav a {
+  color: #86ff9a;
+  border: 1px solid #0f3;
+  border-radius: 0;
+  background: transparent;
+  text-shadow: none;
+}
+
+body.matrix-mode .site-nav a:hover {
+  background: rgba(0, 255, 51, 0.15);
+  transform: none;
+}
+
+body.matrix-mode .page {
+  border: 1px solid #0f3;
+  border-radius: 0;
+  background: #050a05;
+  box-shadow: none;
+  color: #86ff9a;
+}
+
+body.matrix-mode h1,
+body.matrix-mode h2,
+body.matrix-mode h3,
+body.matrix-mode p,
+body.matrix-mode li {
+  color: #86ff9a;
+  text-shadow: none;
+}

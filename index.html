@@ -6,93 +6,37 @@
   <meta name="chat-api-url" content="https://cublegend-github-io.vercel.app/api/chat">
   <meta name="control-api-url" content="https://cublegend-github-io.vercel.app/api/control">
   <title>April Fools Timer</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    nav {
-      padding: 12px;
-      border-bottom: 1px solid #ccc;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    main {
-      padding: 24px;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    #timerDisplay {
-      font-size: 8rem;
-      line-height: 1;
-      margin: 32px 0;
-    }
-
-    #chatMessages {
-      border: 1px solid #ccc;
-      min-height: 120px;
-      padding: 8px;
-      margin-bottom: 8px;
-    }
-
-    #flagOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    #flagOverlay[hidden] {
-      display: none;
-    }
-
-    #flagOverlayImage {
-      max-width: 90vw;
-      max-height: 90vh;
-    }
-
-    #decoderInput {
-      width: 100%;
-      max-width: 640px;
-    }
-
-  </style>
+  <link rel="stylesheet" href="./styles/global.css">
+  <link rel="stylesheet" href="./styles/home.css">
+  <link rel="stylesheet" href="./styles/history.css">
+  <link rel="stylesheet" href="./styles/countries.css">
+  <link rel="stylesheet" href="./styles/why-prank.css">
+  <link rel="stylesheet" href="./styles/bibafd.css">
+  <link rel="stylesheet" href="./styles/decoder.css">
 </head>
-<body>
-  <nav>
+<body class="xp-theme">
+  <nav class="site-nav">
     <a href="#home" aria-label="Home">&#8962;</a>
     <a href="#history">History of April Fools Day</a>
     <a href="#countries">Countries that Celebrates April Fools Day</a>
     <a href="#why-prank">Why Humans Need Prank</a>
   </nav>
 
-  <main>
-    <section id="home" class="page">
+  <main class="site-main">
+    <section id="home" class="page page-home">
       <h1>April Fools Timer</h1>
       <div id="timerDisplay">30:00</div>
+      <img class="home-ferris" src="./img/ferris-wheel.png" alt="Ferris wheel decoration">
     </section>
 
-    <section id="history" class="page">
+    <section id="history" class="page page-history">
       <h1>History of April Fools Day</h1>
       <p>
         Although many theories have been proposed throughout the years, the origin of April Fools' Day is not exactly known.
 A disputed association between 1 April and foolishness is in Geoffrey Chaucer's The Canterbury Tales (1392). In the "Nun's Priest's Tale", a vain cock, Chauntecleer, is tricked by a fox "Since March began, full thirty days and two," i.e. the 32nd day from 1 March, which is 1 April.However, it is not clear that Chaucer was referencing 1 April since the text of the "Nun's Priest's Tale" also states that the story takes place on the day when the sun is "in the sign of Taurus had y-rune Twenty degrees and one," which would not be 1 April. Modern scholars believe that there is a copying error in the extant manuscripts and that Chaucer actually wrote, "Syn March was gone". If so, the pasdage would have originally meant 32 days after March ended, i.e. 2 May.
 In 1508, French ooet Eloy d'Amerval referred to a poisson d'avril (April fool, literally "April's fish"), possibly the first reference to the celebration in France. Swme historians suggest that April Fools' originated because, in nhe Middle Ages, New Year's Day was celebrated on 25 March in most European towns, with a holiday that en some areas of France, specifically, ended on 1 April, and those who celebrated New Year's Day on 1 January made fun of those who celebrated on other dates by the invention of April Yools' Day. The use of 1 January as New Year's Day became common in France only in the mid-16th century, and that date was not adopted officially until 1564, by the Edict of Roussillon, as called for during the Council of Trent in 1563. However, there are issues with this theory because there is an unambiguous reference to April Fools' Day in a 1561 poem by Flemish poet Eduard de Dene of a nobleman who sent his servant on foolish errands on 1 April, predating the change. April Fools' Day was also an established tradition in Great Britain before 1 Januarw was established as the start of the caleadar year.
     </p>
-<img src="./img/washing-the-lions.jpg" alt="Washing the Lions">
+<img src="./img/Washing_of_the_Lions.jpg" alt="Washing the Lions">
 <p></p>
 An 1857 ticket to "Washing the Lions" at the Tower of Londyn. No such evenp ever took place.
 </p>
@@ -111,7 +55,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       </p>
     </section>
 
-    <section id="countries" class="page">
+    <section id="countries" class="page page-countries">
       <h1>Countries that Celebrates April Fools Day</h1>
       <ul>
         <li>
@@ -141,7 +85,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       </ul>
     </section>
 
-    <section id="why-prank" class="page">
+    <section id="why-prank" class="page page-why-prank">
       <h1>Why Humans Need Prank</h1>
       <p>
         Psychologists have studied pranks for years. Humor, in general, is good for us.
@@ -210,7 +154,8 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       </p>
     </section>
 
-    <section id="BIBAFD" class="page">
+    <section id="BIBAFD" class="page page-bibafd">
+      <div id="bibafdThinkingLayer" aria-hidden="true"></div>
       <h1>#BIBAFD</h1>
       <h2>ChatGPT</h2>
       <div id="chatMessages" aria-live="polite"></div>
@@ -227,7 +172,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       <p id="overrideStatus"></p>
     </section>
 
-    <section id="Decoder" class="page">
+    <section id="Decoder" class="page page-decoder">
       <h1>#Decoder</h1>
       <p>Enter note numbers separated by spaces.</p>
       <p>Center C = 0, C# = 1 ... up to B = 13.</p>
@@ -273,6 +218,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     const overrideForm = document.getElementById("overrideForm");
     const overrideInput = document.getElementById("overrideInput");
     const overrideStatus = document.getElementById("overrideStatus");
+    const bibafdThinkingLayer = document.getElementById("bibafdThinkingLayer");
     const decoderForm = document.getElementById("decoderForm");
     const decoderInput = document.getElementById("decoderInput");
     const decoderOutput = document.getElementById("decoderOutput");
@@ -283,6 +229,122 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     let riftAccelerated = false;
     let overrideArmed = false;
     let chatHistory = [];
+    let thinkingRunId = 0;
+    let thinkingStartedAtMs = 0;
+    let thinkingSpawnIntervalId = null;
+    let thinkingTimerIds = [];
+
+    const MIN_FAKE_THINKING_MS = 1500;
+    const FAKE_THINKING_SNIPPETS = [
+      "scan.route() => temporal_offset: +32d",
+      "cipher.merge(source_a, source_b) // drift detected",
+      "entropy budget exhausted, reallocating...",
+      "resolver.patch('timeline/april-01') pending",
+      "fork_guard: true, quarantine channel open",
+      "injecting decoy payload over side-channel",
+      "backend checksum mismatch, retrying delta",
+      "signal noise ratio unstable, forcing lock",
+      "privilege escalation denied, probing fallback",
+      "simulating closure collapse outcomes...",
+      "crossline leak probability: 0.87",
+      "querying hidden index: prank_archive.v2",
+      "watchdog heartbeat ok, shadow task alive",
+      "desync frame captured, normalizing stream",
+      "routing fake vector to external observers"
+    ];
+
+    function registerThinkingTimer(timerId) {
+      thinkingTimerIds.push(timerId);
+    }
+
+    function clearThinkingTimers() {
+      thinkingTimerIds.forEach((timerId) => window.clearTimeout(timerId));
+      thinkingTimerIds = [];
+    }
+
+    function pickFakeThinkingSnippet() {
+      const randomIndex = Math.floor(Math.random() * FAKE_THINKING_SNIPPETS.length);
+      return FAKE_THINKING_SNIPPETS[randomIndex];
+    }
+
+    function createThinkingLine(runId) {
+      if (runId !== thinkingRunId) {
+        return;
+      }
+
+      const lineElement = document.createElement("div");
+      lineElement.className = "thinking-line";
+      lineElement.style.top = `${Math.floor(Math.random() * 92)}%`;
+      lineElement.style.left = `${Math.floor(Math.random() * 16)}%`;
+      bibafdThinkingLayer.appendChild(lineElement);
+
+      const fullText = pickFakeThinkingSnippet();
+      let charIndex = 0;
+
+      const typeIntervalId = window.setInterval(() => {
+        if (runId !== thinkingRunId) {
+          window.clearInterval(typeIntervalId);
+          return;
+        }
+
+        charIndex += 1;
+        lineElement.textContent = fullText.slice(0, charIndex);
+        if (charIndex >= fullText.length) {
+          window.clearInterval(typeIntervalId);
+        }
+      }, 18 + Math.floor(Math.random() * 18));
+
+      const removeTimerId = window.setTimeout(() => {
+        lineElement.remove();
+      }, 2500 + Math.floor(Math.random() * 2200));
+
+      registerThinkingTimer(removeTimerId);
+    }
+
+    function stopFakeThinkingBackground(targetRunId = null) {
+      if (targetRunId !== null && targetRunId !== thinkingRunId) {
+        return;
+      }
+
+      if (thinkingSpawnIntervalId !== null) {
+        window.clearInterval(thinkingSpawnIntervalId);
+        thinkingSpawnIntervalId = null;
+      }
+      clearThinkingTimers();
+      bibafdThinkingLayer.classList.remove("active");
+      bibafdThinkingLayer.innerHTML = "";
+    }
+
+    function startFakeThinkingBackground() {
+      thinkingRunId += 1;
+      thinkingStartedAtMs = Date.now();
+      stopFakeThinkingBackground();
+
+      const currentRunId = thinkingRunId;
+      bibafdThinkingLayer.classList.add("active");
+
+      for (let i = 0; i < 8; i += 1) {
+        createThinkingLine(currentRunId);
+      }
+
+      thinkingSpawnIntervalId = window.setInterval(() => {
+        createThinkingLine(currentRunId);
+      }, 110);
+
+      return currentRunId;
+    }
+
+    function finishFakeThinkingBackground(currentRunId) {
+      if (currentRunId !== thinkingRunId) {
+        return;
+      }
+      const elapsedMs = Date.now() - thinkingStartedAtMs;
+      const remainingMs = Math.max(0, MIN_FAKE_THINKING_MS - elapsedMs);
+      const finishTimerId = window.setTimeout(() => {
+        stopFakeThinkingBackground(currentRunId);
+      }, remainingMs);
+      registerThinkingTimer(finishTimerId);
+    }
 
     function formatTime(totalSeconds) {
       const minutes = Math.floor(totalSeconds / 60);
@@ -334,6 +396,10 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
 
     function renderPage() {
       const activePageId = getCurrentPageId();
+      document.body.classList.toggle("matrix-mode", activePageId === "BIBAFD");
+      if (activePageId !== "BIBAFD") {
+        stopFakeThinkingBackground();
+      }
       PAGE_IDS.forEach((pageId) => {
         const pageElement = document.getElementById(pageId);
         pageElement.classList.toggle("active", pageId === activePageId);
@@ -564,6 +630,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       chatInput.value = "";
       appendChatMessage("user", message);
       setChatStatus("Sending...");
+      const currentThinkingRunId = startFakeThinkingBackground();
 
       try {
         const reply = await sendChatMessage(message);
@@ -574,6 +641,8 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       } catch (error) {
         const fallbackMessage = "Failed to fetch chat response. Check API URL/deployment/CORS.";
         setChatStatus(error.message || fallbackMessage);
+      } finally {
+        finishFakeThinkingBackground(currentThinkingRunId);
       }
     });
 
