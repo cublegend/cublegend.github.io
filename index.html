@@ -173,14 +173,14 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD"];
     const HOME_PAGE = "home";
     const TIMER_START_SECONDS = 30 * 60;
-    const TIMER_ACCELERATION_MULTIPLIER = 5;
+    const TIMER_ACCELERATION_MULTIPLIER = 2;
     const MAX_HISTORY_MESSAGES = 12;
     const SESSION_HISTORY_KEY = "riftChatHistory";
     const SESSION_RIFT_STOPPED_KEY = "riftStopped";
     const SESSION_RIFT_ACCELERATED_KEY = "riftAccelerated";
+    const SESSION_OVERRIDE_ARMED_KEY = "riftOverrideArmed";
     const SESSION_REMAINING_SECONDS_KEY = "riftRemainingSeconds";
     const SESSION_TIMER_AUTOSTART_OVERRIDE_KEY = "riftTimerAutostartOverride";
-    const OVERRIDE_COMMAND = "OVERRIDE COMMAND: BringItBackAprilFoolsDay";
     const chatApiMeta = document.querySelector('meta[name="chat-api-url"]');
     const controlApiMeta = document.querySelector('meta[name="control-api-url"]');
     const CHAT_API_URL = window.CHAT_API_URL || (chatApiMeta && chatApiMeta.content) || "/api/chat";
@@ -203,6 +203,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     let timerIntervalId = null;
     let riftStopped = false;
     let riftAccelerated = false;
+    let overrideArmed = false;
     let chatHistory = [];
 
     function formatTime(totalSeconds) {
@@ -370,6 +371,18 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       return window.sessionStorage.getItem(SESSION_RIFT_ACCELERATED_KEY) === "1";
     }
 
+    function setOverrideArmedState(armed) {
+      overrideArmed = Boolean(armed);
+      window.sessionStorage.setItem(SESSION_OVERRIDE_ARMED_KEY, overrideArmed ? "1" : "0");
+      if (overrideArmed && !riftStopped) {
+        overrideStatus.textContent = "Override command accepted. Enter password to finalize shutdown.";
+      }
+    }
+
+    function loadOverrideArmedState() {
+      return window.sessionStorage.getItem(SESSION_OVERRIDE_ARMED_KEY) === "1";
+    }
+
     function disableTimerAutoStart() {
       window.sessionStorage.setItem(SESSION_TIMER_AUTOSTART_OVERRIDE_KEY, "0");
     }
@@ -411,7 +424,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ secret })
+          body: JSON.stringify({ secret, overrideArmed })
         });
       } catch (_error) {
         throw new Error(`Cannot reach control API at ${CONTROL_API_URL}.`);
@@ -497,15 +510,6 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       event.preventDefault();
       const command = overrideInput.value;
 
-      if (command === OVERRIDE_COMMAND) {
-        setRiftStoppedState(true);
-        setRiftAcceleratedState(false);
-        disableTimerAutoStart();
-        setChatStatus("Rift shutdown acknowledged.");
-        overrideInput.value = "";
-        return;
-      }
-
       if (riftStopped) {
         overrideStatus.textContent = "Rift is already stopped.";
         overrideInput.value = "";
@@ -514,10 +518,29 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
 
       submitControlSecret(command)
         .then((payload) => {
-          if (payload && payload.ok && payload.action === "accelerate") {
-            setRiftAcceleratedState(true);
+          if (!(payload && payload.ok)) {
+            overrideStatus.textContent = "Command rejected.";
+            return;
+          }
+
+          if (payload.action === "arm_shutdown") {
+            setOverrideArmedState(true);
+            setChatStatus("Shutdown is armed. Password required to complete shutdown.");
+            return;
+          }
+
+          if (payload.action === "shutdown") {
+            setRiftStoppedState(true);
+            setRiftAcceleratedState(false);
+            setOverrideArmedState(false);
             disableTimerAutoStart();
-            setChatStatus("Rift acceleration active.");
+            setChatStatus("Rift shutdown complete.");
+            return;
+          }
+
+          if (payload.action === "accelerate") {
+            setRiftAcceleratedState(true);
+            setChatStatus("Rift acceleration active (2x).");
           } else {
             overrideStatus.textContent = "Command rejected.";
           }
@@ -538,6 +561,7 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       renderHistory();
       setRiftStoppedState(loadRiftStoppedState());
       setRiftAcceleratedState(loadRiftAcceleratedState());
+      setOverrideArmedState(loadOverrideArmedState());
       remainingSeconds = loadRemainingSeconds();
       renderTimer();
       renderPage();

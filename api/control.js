@@ -55,14 +55,26 @@ module.exports = async function handler(req, res) {
   }
 
   const accelerationPassword = process.env.RIFT_ACCELERATION_PASSWORD || "";
+  const overrideCommand = process.env.RIFT_OVERRIDE_COMMAND || "";
   if (!accelerationPassword) {
     return res.status(500).json({ error: "Server control password is not configured." });
+  }
+  if (!overrideCommand) {
+    return res.status(500).json({ error: "Server override command is not configured." });
   }
 
   const body = parseBody(req.body);
   const secret = typeof body.secret === "string" ? body.secret : "";
+  const overrideArmed = Boolean(body.overrideArmed);
+
+  if (safeCompare(secret, overrideCommand)) {
+    return res.status(200).json({ ok: true, action: "arm_shutdown" });
+  }
 
   if (safeCompare(secret, accelerationPassword)) {
+    if (overrideArmed) {
+      return res.status(200).json({ ok: true, action: "shutdown" });
+    }
     return res.status(200).json({ ok: true, action: "accelerate" });
   }
 
