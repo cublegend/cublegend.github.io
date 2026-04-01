@@ -74,9 +74,10 @@ function buildResponseInput({ systemInstruction, history, message }) {
   ];
 
   history.forEach((entry) => {
+    const contentType = entry.role === "assistant" ? "output_text" : "input_text";
     input.push({
       role: entry.role,
-      content: [{ type: "input_text", text: entry.text }]
+      content: [{ type: contentType, text: entry.text }]
     });
   });
 
