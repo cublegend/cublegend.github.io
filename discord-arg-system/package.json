@@ -1,0 +1,16 @@
+{
+  "name": "discord-arg-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "One-channel Discord ARG persona webhook runner",
+  "main": "script.js",
+  "scripts": {
+    "start": "node script.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

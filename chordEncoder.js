@@ -1,13 +1,14 @@
 // Canonical sharp-based note mapping
 const noteToChar = {
-    "A#": "g",
-    "F#": "H",
-    "D": "f",
-    "G#": "c",
-    "C": "k",
-    "C#": "V",
-    "A": "N",
-    "G": "C"
+    "A#": "h",
+    "F#": "G",
+    "D": "e",
+    "G#": "W",
+    "C": "B",
+    "C#": "4",
+    "A": "s",
+    "G": "b",
+    "Bb": "c"
   };
   
   // Flat aliases -> sharp equivalents
