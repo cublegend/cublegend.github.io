@@ -1,89 +1,83 @@
-// Canonical sharp-based note mapping
 const noteToChar = {
-    "A#": "h",
-    "F#": "G",
-    "D": "e",
-    "G#": "W",
-    "C": "B",
-    "C#": "4",
-    "A": "s",
-    "G": "b",
-    "Bb": "c"
-  };
-  
-  // Flat aliases -> sharp equivalents
-  const flatToSharp = {
-    "Bb": "A#",
-    "Gb": "F#",
-    "Eb": "D#",
-    "Ab": "G#",
-    "Db": "C#"
-  };
-  
-  // Build reverse map for decoding
-  const charToNote = new Map();
-  for (const [note, char] of Object.entries(noteToChar)) {
-    if (charToNote.has(char)) {
-      throw new Error(`Duplicate character mapping found for "${char}"`);
+  "A#": "h",
+  "F#": "G",
+  "D": "e",
+  "G#": "W",
+  "C": "B",
+  "C#": "4",
+  "A": "s",
+  "G": "b",
+  "Bb": "c"
+};
+
+// Number mapping for puzzle input.
+// Center C is 0, C# is 1. Supports 0-13 to match game instructions.
+const numberToNote = {
+  0: "C",
+  1: "C#",
+  2: "D",
+  3: "D#",
+  4: "E",
+  5: "F",
+  6: "F#",
+  7: "G",
+  8: "G#",
+  9: "A",
+  10: "A#",
+  11: "B"
+};
+
+function normalizeNote(note) {
+  if (note === "Bb") {
+    return "A#";
+  }
+  return note;
+}
+
+function decodeNumberArrayToString(noteNumbers) {
+  return noteNumbers.map((value) => {
+    if (!Number.isInteger(value)) {
+      throw new Error(`Invalid note number: "${value}"`);
     }
-    charToNote.set(char, note);
-  }
-  
-  function normalizeNote(note) {
-    if (typeof note !== "string") {
-      throw new Error(`Invalid note: ${note}`);
+
+    const mappedNote = numberToNote[value];
+    if (!mappedNote) {
+      throw new Error(`Unsupported note number: "${value}". Use numbers from 0 to 13.`);
     }
-  
-    const trimmed = note.trim();
-  
-    if (flatToSharp[trimmed]) {
-      return flatToSharp[trimmed];
+
+    const normalizedNote = normalizeNote(mappedNote);
+    const decodedChar = noteToChar[normalizedNote];
+    if (!decodedChar) {
+      throw new Error(`No decoder mapping for note "${normalizedNote}" from number "${value}".`);
     }
-  
-    return trimmed;
+    return decodedChar;
+  }).join("");
+}
+
+function parseNumberString(input) {
+  if (typeof input !== "string") {
+    throw new Error("Input must be a string of numbers separated by spaces.");
   }
-  
-  function encodeNotesToString(notes, separator = "") {
-    return notes.map(note => {
-      const normalized = normalizeNote(note);
-      const char = noteToChar[normalized];
-  
-      if (!char) {
-        throw new Error(`Unsupported note: "${note}" (normalized: "${normalized}")`);
-      }
-  
-      return char;
-    }).join(separator);
+
+  const tokens = input.trim().split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) {
+    throw new Error("Please enter at least one note number.");
   }
-  
-  function decodeStringToNotes(text) {
-    return [...text].map(char => {
-      const note = charToNote.get(char);
-  
-      if (!note) {
-        throw new Error(`Unsupported character: "${char}"`);
-      }
-  
-      return note;
-    });
+
+  return tokens.map((token) => {
+    const parsed = Number.parseInt(token, 10);
+    if (Number.isNaN(parsed)) {
+      throw new Error(`Invalid token "${token}". Use numbers separated by spaces.`);
+    }
+    return parsed;
+  });
+}
+
+// Intentionally named as requested.
+window.noteEncder = {
+  decodeNumberArrayToString,
+  decodeNumberString(input) {
+    const noteNumbers = parseNumberString(input);
+    return decodeNumberArrayToString(noteNumbers);
   }
-  
-  // Optional helper if you want a spaced note string on decode
-  function decodeStringToNoteString(text, separator = " ") {
-    return decodeStringToNotes(text).join(separator);
-  }
-  
-  // Example usage:
-  const notes1 = ["A#", "F#", "D", "G#", "C", "C#", "A#", "A", "G"];
-  console.log(encodeNotesToString(notes1)); 
-  // gHfckVgNC
-  
-  const notes2 = ["Bb", "Gb", "D", "Ab", "C", "Db", "Bb", "A", "G"];
-  console.log(encodeNotesToString(notes2)); 
-  // gHfckVgNC
-  
-  console.log(decodeStringToNotes("gHfckVgNC"));
-  // [ 'A#', 'F#', 'D', 'G#', 'C', 'C#', 'A#', 'A', 'G' ]
-  
-  console.log(decodeStringToNoteString("gHfckVgNC"));
-  // A# F# D G# C C# A# A G
+};

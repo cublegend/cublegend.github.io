@@ -64,6 +64,11 @@
       max-height: 90vh;
     }
 
+    #decoderInput {
+      width: 100%;
+      max-width: 640px;
+    }
+
   </style>
 </head>
 <body>
@@ -139,12 +144,69 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     <section id="why-prank" class="page">
       <h1>Why Humans Need Prank</h1>
       <p>
-        Pranks, when harmless and respectful, can create laughter and social bonding.
-        Humor helps reduce stress and encourages creativity.
+        Psychologists have studied pranks for years. Humor, in general, is good for us.
+        Neuropsychology research has shown that laughing improves well-being.
       </p>
       <p>
-        A shared joke can make people feel connected, as long as the prank is safe,
-        consensual in spirit, and never humiliating.
+        Humor and laughter release endorphins and oxytocin, neurochemicals that are
+        associated with happiness and social bonding. But why are practical jokes or
+        pranks even funny in the first place?
+      </p>
+      <p>From clinical psychology, a summary of research on pranks:</p>
+      <p>
+        * Practical jokes are a subtle form of "play-fighting." Jokes imply a sense of
+        closeness or insider group feelings in the relationship. That is, you tend to
+        prank those you believe you are close with or can handle the joke.
+      </p>
+      <p>
+        * A good prank satirizes human fears or vulnerabilities, and is found in a wide
+        variety of international initiation rites and coming-of-age rituals. The Daribi
+        of New Guinea, for example, have children make a small box and bury it in the
+        ground, telling them that after a while a treasure will appear inside but they
+        must not peek. Invariably the youngsters succumb to curiosity, only to find a box
+        of animal feces (research cited from the University of Virginia, department of
+        psychological anthropology).
+      </p>
+      <p>
+        * The prank releases inhibition, liberating us for a moment from having to act
+        "properly".
+      </p>
+      <p>
+        * In psychoanalysis, motivations for the impulse to prank one's own family or
+        friends has been described as a subtle form of the desire to do bad things to the
+        very people one claims to care for. It may be one of the modalities through which
+        everyday sadism can manifest (i.e., potentially obtaining pleasure from hostile
+        forms of humor, sarcasm, and practical jokes).
+      </p>
+      <p><strong>EXAMPLE OF A CLASSIC PRANK:</strong></p>
+      <p>
+        A very classic example of a prank that is both simple and effective is the email
+        prank. The steps are as follows:
+      </p>
+      <p>Find the person you want to prank and their email address.</p>
+      <p>Send them this message:</p>
+      <p>
+        Hey,<br>
+        Just wanted to say-<br>
+        April Fool's!
+      </p>
+      <p>
+        You can freely change the message as you wish, but do not forget to add the
+        "April Fool's!" line at the end to let them know that it is a prank!
+      </p>
+      <p>
+        Some may say that this is too simple and stupid. But it is by far the most
+        effective way to celebrate and enjoy April Fool's Day with your friends, and a
+        good way to tell them that you are thinking of them. So go ahead and send it!
+        Maybe they will reply with an even better one that you can use on the next
+        victim.
+      </p>
+      <p>
+        Also, if you are hesitating to send your friend this message, feel free to send
+        it my way! I am a strong defender of the tradition of April Fool's Day. So if in
+        the future, there is anything wrong with this tradition, I will do my best to
+        upkeep it. Ask me anything! My email address is as follows:
+        afdproisme@gmail.com.
       </p>
     </section>
 
@@ -164,13 +226,26 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
       </form>
       <p id="overrideStatus"></p>
     </section>
+
+    <section id="Decoder" class="page">
+      <h1>#Decoder</h1>
+      <p>Enter note numbers separated by spaces.</p>
+      <p>Center C = 0, C# = 1 ... up to B = 13.</p>
+      <img src="./img/pianoHint.png" alt="Piano number hint">
+      <form id="decoderForm">
+        <input id="decoderInput" type="text" placeholder="Example: 10 6 2 8 0 1 10 9 7" autocomplete="off">
+        <button type="submit">Decode</button>
+      </form>
+      <p id="decoderOutput"></p>
+    </section>
   </main>
   <div id="flagOverlay" hidden>
     <img id="flagOverlayImage" src="" alt="Country flag">
   </div>
 
+  <script src="./chordEncoder.js"></script>
   <script>
-    const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD"];
+    const PAGE_IDS = ["home", "history", "countries", "why-prank", "BIBAFD", "Decoder"];
     const HOME_PAGE = "home";
     const TIMER_START_SECONDS = 30 * 60;
     const TIMER_ACCELERATION_MULTIPLIER = 2;
@@ -198,6 +273,9 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
     const overrideForm = document.getElementById("overrideForm");
     const overrideInput = document.getElementById("overrideInput");
     const overrideStatus = document.getElementById("overrideStatus");
+    const decoderForm = document.getElementById("decoderForm");
+    const decoderInput = document.getElementById("decoderInput");
+    const decoderOutput = document.getElementById("decoderOutput");
 
     let remainingSeconds = TIMER_START_SECONDS;
     let timerIntervalId = null;
@@ -551,6 +629,21 @@ The Hebrew calendar is lunisolar, and so no specific day always correlares with 
         .finally(() => {
           overrideInput.value = "";
         });
+    });
+
+    decoderForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const rawInput = decoderInput.value.trim();
+
+      try {
+        if (!window.noteEncder || typeof window.noteEncder.decodeNumberString !== "function") {
+          throw new Error("Decoder module not loaded.");
+        }
+        const decodedText = window.noteEncder.decodeNumberString(rawInput);
+        decoderOutput.textContent = decodedText;
+      } catch (error) {
+        decoderOutput.textContent = error.message || "Unable to decode input.";
+      }
     });
 
     window.addEventListener("hashchange", renderPage);
